@@ -291,12 +291,10 @@
     }
 
 
+    var cl = 2;
     function click(gl) {
-      //gl.clearColor(0.0, 0.0, 0.0, 1);  // glClear will fill the canvas with a new color
+      gl.clearColor(0.3, 0.6, 0.9, 1);  // glClear will fill the canvas with a new color
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-      thetaY += 60.0;
-      thetaX = thetaX + 30.0;
 
       if (thetaY >= 360)
         thetaY = 0.0;
@@ -304,32 +302,34 @@
         thetaX = 0.0;
 
 
-      var radY = thetaY * Math.PI / 180;
-      var rotateMatY = new Float32Array([
-        Math.cos(radY), 0.0, -Math.sin(radY), 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        Math.sin(radY), 0.0, Math.cos(radY), 0.0,
-        0.0, 0.0, 0.0, 1.0
-      ]);
-      var radX = thetaX * Math.PI / 180;
-      var rotateMatX = new Float32Array([
-        1.0, 0.0, 0.0, 0.0,
-        0.0, Math.cos(radX), Math.sin(radX), 0.0,
-        0.0, -Math.sin(radX), Math.cos(radX), 0.0,
-        0.0, 0.0, 0.0, 1.0
-      ]);
-
-
       if (cl % 2 == 0) {
+        thetaY += 60.0;
+        var radY = thetaY * Math.PI / 180;
+        var rotateMatY = new Float32Array([
+          Math.cos(radY), 0.0, -Math.sin(radY), 0.0,
+          0.0, 1.0, 0.0, 0.0,
+          Math.sin(radY), 0.0, Math.cos(radY), 0.0,
+          0.0, 0.0, 0.0, 1.0
+        ]);
         gl.uniformMatrix4fv(u_matrix_rotateY_location, false, rotateMatY);
         cl++;
         console.log("clY = " + cl);
-        console.log("\nredY = " + radY);
+        console.log("\nredY = " + radY * (180 / Math.PI));
+        
       } else {
+        thetaX += 30.0;
+        var radX = thetaX * Math.PI / 180;
+        var rotateMatX = new Float32Array([
+          1.0, 0.0, 0.0, 0.0,
+          0.0, Math.cos(radX), Math.sin(radX), 0.0,
+          0.0, -Math.sin(radX), Math.cos(radX), 0.0,
+          0.0, 0.0, 0.0, 1.0
+        ]);
+
         gl.uniformMatrix4fv(u_matrix_rotateX_location, false, rotateMatX);
         cl++;
         console.log("clX = " + cl);
-        console.log("\nredX = " + radX);
+        console.log("\nredX = " + radX * (180 / Math.PI));
       }
 
 
